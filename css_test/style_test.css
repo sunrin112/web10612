@@ -1,0 +1,106 @@
+/* 글꼴 설정 */
+@font-face {
+    font-family: abster;
+    src: url(font/abster-webfont.woff) format('woff');
+} 
+
+/* 전체 선택 */
+* {
+    /* 기본 여백 삭제 */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 배경처리 */
+.container {
+    /* 그라데이션 및 사진 추가 */
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.1)), url(./images/room.jpg);
+}
+
+/* 헤더배치 */
+.header {
+    width: 80%;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;  
+}
+
+/* 글자로고 */
+.container .header h1 a{
+    /* 글꼴 추가 */
+    color: whitesmoke;
+    text-decoration: none;
+    font-family: abster;
+}
+
+/* 메뉴요소 배치 */
+.container .header .nav ul li{
+    /* 한줄로 나란히 */
+    display: inline;
+    margin: 0 10px; 
+} 
+
+/* 메뉴요소 스타일링 */
+.container .header .nav ul li a{
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+/* 메뉴요소 마우스이벤트 */
+.container .header .nav ul li a:hover{
+    color: aquamarine;
+}
+
+/* 화면 중앙 요소 배치 */
+/* hero 영역을 중앙에 배치하기 위해
+1) 기준점을 부모요소 기준으로 바꾸기 위해
+position absolute 속성을 사용함
+2) 기준점 대비 중앙값이 화면 가로크기 및 세로크기 대비 50%,50%으로 값을 설정함
+3) 기준점을 설정한 후 기준점만 화면 정중앙에 배치되므로
+실제 중앙에 배치할 글자, 버튼을 중앙에 오게 하기 위해 미세조정이 필요함
+그래서 translate 이용해서 위치를 미세조정함*/
+.container .hero{
+    /* 가운데 정렬 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    color: whitesmoke;
+}
+
+/* 화면 중앙 요소 제목 */
+.container .hero h2{
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+/* 화면 중앙 요소 본문 */
+.container .hero p{
+    font-size: larger;
+    margin: 20px;
+}
+
+/* 화면 중앙 요소 버튼 */
+.container .hero button{
+    padding: 15px 20px;
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,1);
+    background-color: rgba(255,255,255,0.7);
+}
+
+/* 화면 중앙 요소 버튼 처리 */
+.container .hero button:hover{
+    background-color: rgba(255,255,255,1);
+}
+
+.container .hero button a{
+    /* 따로 추가함*/
+    color: rgba(0,0,0,0.3);
+    text-decoration: none;
+    font-family: abster;
+}
