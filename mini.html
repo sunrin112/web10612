@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+
+const rand = Math.floor(Math.random() * 100);
+
+function question(){
+    var num = parseInt(document.getElementById("num").value);
+    document.getElementById("c").value++;
+
+    if(rand > num)  document.getElementById("h").value = "작습니다";
+    else if (rand < num)  document.getElementById("h").value = "큽니다";
+    else document.getElementById("h").value = "같습니다";
+}
+
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>숫자 맞추기 게임</h1><br>  
+    숫자:<input id="num"/><input type="button" value="확인" onclick="question();" /><br>
+    추측횟수:<input id="c"/><br>
+    힌트:<input id="h"/><br>
+</body>
+</html>
