@@ -1,0 +1,84 @@
+<!-- !!!아직 CHATGPT가 쓴거 밖에 없음!!! -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환율 정보 그래프</title>
+    
+    <!-- 공공데이터 포탈에서 한국수출입은행 환율 정보를 불러옴 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // canvas에서 그래프를 만들 수 있게 2D 요소를 불러옴
+            const ctx = document.getElementById('exchangeRateChart').getContext('2d');
+            
+            // 미국 달러(USD) 환율 API 호출
+            fetch('https://api.exchangerate-api.com/v4/latest/USD')
+                .then(response => response.json())
+                .then(data => {
+                    const usdLabels = Object.keys(data.rates); // 날짜 데이터 (예시)
+                    const usdRates = Object.values(data.rates); // 환율 데이터 (예시)
+
+                    // 원화(KRW) 환율 API 호출
+                    fetch('https://api.exchangerate-api.com/v4/latest/KRW')
+                        .then(response => response.json())
+                        .then(krwData => {
+                            const krwRates = Object.values(krwData.rates); // 원화 환율 데이터 (예시)
+
+                            // 유로(EUR) 환율 API 호출
+                            fetch('https://api.exchangerate-api.com/v4/latest/EUR')
+                                .then(response => response.json())
+                                .then(eurData => {
+                                    const eurRates = Object.values(eurData.rates); // 유로 환율 데이터 (예시)
+
+                                    // Chart.js 그래프 생성
+                                    new Chart(ctx, {
+                                        type: 'line',
+                                        data: {
+                                            labels: usdLabels,
+                                            datasets: [{
+                                                label: 'USD 환율',
+                                                data: usdRates,
+                                                borderColor: 'rgba(75, 192, 192, 1)',
+                                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                                borderWidth: 1
+                                            }, {
+                                                label: 'KRW 환율',
+                                                data: krwRates,
+                                                borderColor: 'rgba(192, 75, 192, 1)',
+                                                backgroundColor: 'rgba(192, 75, 192, 0.2)',
+                                                borderWidth: 1
+                                            }, {
+                                                label: 'EUR 환율',
+                                                data: eurRates,
+                                                borderColor: 'rgba(255, 159, 64, 1)',
+                                                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                x: {
+                                                    beginAtZero: true
+                                                },
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                })
+                                .catch(error => console.error('Error fetching EUR API data:', error));
+                        })
+                        .catch(error => console.error('Error fetching KRW API data:', error));
+                })
+                .catch(error => console.error('Error fetching USD API data:', error));
+        });
+    </script>
+</head>
+<body>
+    <h1>환율 정보 그래프</h1>
+    <canvas id="exchangeRateChart" width="400" height="200"></canvas>
+</body>
+</html>
