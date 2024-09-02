@@ -2,11 +2,11 @@
 <html lang="ko">
 <head>
 <style>
-.button {
-padding: 10px;
-width: 50px;
-height: 50px;
-}
+    .button {
+        padding: 10px;
+        width: 50px;
+        height: 50px;
+    }
 </style>
 <script>
     // 계산 할 result와 문자열 ceremony 추가
@@ -29,7 +29,7 @@ function add() {
 function minus(){
     let {a, b} = get();
     if (a && b){
-        ceremony += "-" + a + "-" + b;
+        ceremony += "+" + a + "-" + b;
         document.getElementById("sik").value = ceremony.substr(1);
         result -= a - b;
         document.getElementById("result").value = result;
@@ -38,7 +38,7 @@ function minus(){
 function gopsam(){
     let {a, b} = get();
     if (a && b){
-        ceremony += "*" + a + "*" + b;
+        ceremony += "+" + a + "*" + b;
         document.getElementById("sik").value = ceremony.substr(1);
         result *= a * b;
         document.getElementById("result").value = result;
@@ -47,7 +47,7 @@ function gopsam(){
 function nanusam(){
     let {a, b} = get();
     if (a && b) {
-        ceremony += "/" + a+ "/" + b;
+        ceremony += "+" + a+ "/" + b;
         document.getElementById("sik").value = ceremony.substr(1);
         result /= a / b;
         document.getElementById("result").value = result;
@@ -58,8 +58,9 @@ function nanusam(){
 function keodeupjegop(){
     let {a, b} = get();
     if (a && b) {
+        ceremony += "+"
         for (let i = 0; i < b-1; i++){
-            ceremony += "*" + a + "*"
+            ceremony += a + "**"
         }
         ceremony += a;
         document.getElementById("sik").value = ceremony.substr(1);
