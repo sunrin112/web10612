@@ -9,46 +9,97 @@ height: 50px;
 }
 </style>
 <script>
+    // 계산 할 result와 문자열 ceremony 추가
     let result = 0;
     let ceremony = "";
+function get(){
+    var a = parseFloat(document.getElementById("number1").value);
+    var b = parseFloat(document.getElementById("number2").value);
+    return {a,b};
+}
 function add() {
-    ceremony += "+" + document.getElementById("number1").value + "+" + document.getElementById("number2").value;
-    result += parseFloat(document.getElementById("number1").value) + parseFloat(document.getElementById("number2").value);
+    let {a, b} = get();
+    if (a && b){
+        ceremony += "+" + a + "+" + b;
+        document.getElementById("sik").value = ceremony.substr(1);
+        result += a + b;
+        document.getElementById("result").value = result;
+    }
 }
 function minus(){
-    ceremony += "-" + document.getElementById("number1").value + "-" + document.getElementById("number2").value;
-    result -= parseFloat(document.getElementById("number1").value) - parseFloat(document.getElementById("number2").value);
+    let {a, b} = get();
+    if (a && b){
+        ceremony += "-" + a + "-" + b;
+        document.getElementById("sik").value = ceremony.substr(1);
+        result -= a - b;
+        document.getElementById("result").value = result;
+    }
 }
 function gopsam(){
-    ceremony += "*" + document.getElementById("number1").value + "*" + document.getElementById("number2").value;
-    result *= parseFloat(document.getElementById("number1").value) * parseFloat(document.getElementById("number2").value);
+    let {a, b} = get();
+    if (a && b){
+        ceremony += "*" + a + "*" + b;
+        document.getElementById("sik").value = ceremony.substr(1);
+        result *= a * b;
+        document.getElementById("result").value = result;
+    }
 }
 function nanusam(){
-    ceremony += "/" + document.getElementById("number1").value + "/" + document.getElementById("number2").value;
-    result /= parseFloat(document.getElementById("number1").value) / parseFloat(document.getElementById("number2").value);
-}
-function keodeupjegop(){
-    for (let i = 0; i < document.getElementById("number2").value-1; i++){
-       ceremony += "*" + document.getElementById("number1").value + "*"
+    let {a, b} = get();
+    if (a && b) {
+        ceremony += "/" + a+ "/" + b;
+        document.getElementById("sik").value = ceremony.substr(1);
+        result /= a / b;
+        document.getElementById("result").value = result;
     }
-    ceremony += document.getElementById("number1").value;
-    result += document.getElementById("number1").value ** document.getElementById("number2").value;
 }
-function gap(){
-    document.getElementById("sik").value = ceremony.substr(1);
-    document.getElementById("result").value = result;
+
+// 거듭제곱 추가
+function keodeupjegop(){
+    let {a, b} = get();
+    if (a && b) {
+        for (let i = 0; i < b-1; i++){
+            ceremony += "*" + a + "*"
+        }
+        ceremony += a;
+        document.getElementById("sik").value = ceremony.substr(1);
+        result += a ** b;
+        document.getElementById("result").value = result;
+    }
+}
+// 합계 계산 및 식 표현
+function reset(){
+    document.getElementById("sik").value = "";
+    document.getElementById("result").value = "";
 }
 </script>
 <body>
-숫자 1: <input type=text id="number1" value="9"><br>
-숫자 2: <input type=text id="number2" value="6"><br>
-<input type=button value="+" onClick="add()" class="button">
-<input type=button value="-" onClick="minus()" class="button">
-<input type=button value="*" onClick="gopsam()"class="button">
-<input type=button value="/" onClick="nanusam()"class="button">
-<input type=button value="**" onClick="keodeupjegop()"class="button">
-<input type=button value="=" onClick="gap()" class="button"><br>
-식: <input type=text id="sik" value=""><br>
-연산결과: <input type=text id="result" value="">
+    <table>
+        <tr>
+            <td><label>첫번째 숫자:</label></td>
+            <td><input type=text id="number1" value="1"></td>
+        </tr>
+        <tr>
+            <td><label>두번째 숫자:</label></td>
+            <td><input type=text id="number2" value="2"></td>
+        </tr>
+        <tr>
+            <td><input type=button value="+" onClick="add()" class="button"></td>
+            <td><input type=button value="-" onClick="minus()" class="button"></td>
+            <td><input type=button value="*" onClick="gopsam()"class="button"></td>
+            <td><input type=button value="/" onClick="nanusam()"class="button"></td>
+            <td><input type=button value="**" onClick="keodeupjegop()"class="button"></td>
+            <td><input type=button value="C" onClick="reset()" class="button"></td>
+        </tr>
+        <!-- 식 추가 -->
+        <tr>
+            <td><label>식:</label></td>
+            <td><input type=text id="sik" value=""></td>
+        </tr>
+        <tr>
+            <td><label>연산결과:</label></td>
+            <td><input type=text id="result" value=""></td>
+        </tr>
+    </table>
 </body>
 </html>
