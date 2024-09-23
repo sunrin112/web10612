@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            text-align: center;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #board {
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        #board tr td {
+            border: 2px solid #ffffff;
+            background: #34da79;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        #board tr td.clicked {
+            background: #6c5ee7;
+            cursor: default;
+        }
+
+        #board tr td.mine {
+            background: #FF0000;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #8a8a8a;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #4a4a4a;
+        }
+
+        #timer {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>지뢰찾기</h1>
+    <div id="timer"></div>
+    <table id="board"></table>
+    <button id="button" onclick="genGrid();">게임 시작</button>
+    <script>
+        let grid = document.getElementById("board");
+        let progress = 0;
+        let mines = [];
+        let timer = 0;
+        let timerInterval;
+
+        function genGrid() {
+            if (progress === 0) {
+                MineSetting();
+                progress++;
+                document.getElementById("button").innerHTML = "초기화";
+                startTimer();
+            } 
+            else if (progress === 1) {
+                const clickedCells = Array.from(grid.getElementsByClassName("clicked"));
+                for (let cell of clickedCells) {
+                    cell.className = "";
+                }
+            }
+            showMines();
+        }
+
+        function startTimer() {
+            timer = 0;
+            document.getElementById("timer").innerHTML = "0.0초";
+            timerInterval = setInterval(() => {
+                timer += 100;
+                const seconds = (timer / 1000).toFixed(1);
+                document.getElementById("timer").innerHTML = `${seconds}초`;
+            }, 100);
+        }
+
+        function MineSetting() {
+            grid.innerHTML = "";
+            mines = [];
+            for (let i = 0; i < 10; i++) {
+                let row = grid.insertRow(i);
+                for (let j = 0; j < 10; j++) {
+                    let cell = row.insertCell(j);
+                    cell.onclick = function () { clickBox(this); };
+                    let mine = document.createAttribute("mine");
+                    mine.value = Math.random() < 0.3 ? "true" : "false";
+                    cell.setAttributeNode(mine);
+                    if (mine.value === "true") {
+                        mines.push(cell);
+                    }
+                }
+            }
+        }
+
+        function showMines() {
+            for (let mine of mines) {
+                mine.className = "mine";
+            }
+            setTimeout(hideMines, 3000);
+        }
+
+        function hideMines() {
+            for (let mine of mines) {
+                mine.className = "";
+            }
+        }
+
+        function clickBox(cell) {
+            if (progress) {
+                if (cell.getAttribute("mine") === "true") {
+                    cell.className = "mine";
+                    alert("게임이 종료되었습니다.");
+                    progress = 0;
+                    clearInterval(timerInterval);
+                    document.getElementById("button").innerHTML = "새 게임";
+                } 
+                else {
+                    cell.className = "clicked";
+                    if (grid.getElementsByClassName("clicked").length === (10 * 10 - mines.length)) {
+                        const seconds = (timer / 1000).toFixed(1);
+                        alert("성공하셨습니다!");
+                        progress = 0;
+                        clearInterval(timerInterval);
+                        document.getElementById("button").innerHTML = "새 게임";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
